@@ -3,7 +3,7 @@ name: Deploy Node.js App to WebHostMost via sFTP
 on:
   push:
     branches:
-      - main  # أو develop حسب فرعك الحالي
+      - main  # أو اكتب develop بناءً على الفرع الذي تدفع إليه كودك حالياً
 
 jobs:
   deploy:
@@ -14,13 +14,33 @@ jobs:
       uses: actions/checkout@v3
 
     - name: 📂 Sync files to WebHostMost
-      uses: nwtgck/actions-sftp-deploy@v1.2.1
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
       with:
-        host: ${{ secrets.SFTP_SERVER }}
         username: ${{ secrets.SFTP_USERNAME }}
         password: ${{ secrets.SFTP_PASSWORD }}
-        port: 2323  # المنفذ الرسمي المعتمد في استضافة WebHostMost
-        local_dir: '.'  # المجلد الحالي في GitHub
-        remote_dir: '/home/${{ secrets.SFTP_USERNAME }}/domains/dev-qu.tct-ksa.com/public_html' # مسار موقعك الدقيق
-        # سطر السحر: السطر التالي يجبر GitHub على قراءة وتطبيق كل ما هو مكتوب داخل .gitignore ومنع رفعه
-        exclude_file: '.gitignore' 
+        server: ${{ secrets.SFTP_SERVER }}
+        port: 2323  # المنفذ الرسمي للاستشارة الأمنية في WebHostMost لـ sFTP
+        local_path: './'
+        remote_path: '/home/${{ secrets.SFTP_USERNAME }}/domains/dev-qu.tct-ksa.com/public_html'
+        sftpArgs: '-o StrictHostKeyChecking=no'
+        
+        # قائمة التجاهل الصارمة والمطابقة لملف gitignore الخاص بمشروعك:
+        exclude: |
+          **/node_modules
+          *.cache
+          .DS_Store
+          *.log
+          logs/
+          tmp/
+          .vscode/*
+          *.code-workspace
+          **/tsconfig.tsbuildinfo
+          .husky/_
+          .husky/.gitignore
+          .yarn/*
+          **/yarn-error.log
+          .pnp.*
+          apps/**/yarn.lock
+          .env*
+          **/.nvmrc
+          **/coverage

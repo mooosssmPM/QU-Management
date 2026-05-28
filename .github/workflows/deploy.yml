@@ -24,8 +24,7 @@ jobs:
         remote_path: '/home/${{ secrets.SFTP_USERNAME }}/domains/dev-qu.tct-ksa.com/public_html'
         sftpArgs: '-o StrictHostKeyChecking=no'
 
-
-# الصياغة القياسية والمباشرة لمنع الرفع تماماً وبدون نجوم مزدوجة:
+        # الصياغة القياسية والمباشرة لمنع الرفع تماماً وبدون نجوم مزدوجة:
         exclude: |
           node_modules
           node_modules/
@@ -48,26 +47,3 @@ jobs:
           .nvmrc
           coverage
           coverage/
-
-
-        
-        # قائمة التجاهل الصارمة والمطابقة لملف gitignore الخاص بمشروعك:
-        exclude: |
-          **/node_modules
-          *.cache
-          .DS_Store
-          *.log
-          logs/
-          tmp/
-          .vscode/*
-          *.code-workspace
-          **/tsconfig.tsbuildinfo
-          .husky/_
-          .husky/.gitignore
-          .yarn/*
-          **/yarn-error.log
-          .pnp.*
-          apps/**/yarn.lock
-          .env*
-          **/.nvmrc
-          **/coverage

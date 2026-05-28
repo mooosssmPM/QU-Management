@@ -23,6 +23,33 @@ jobs:
         local_path: './'
         remote_path: '/home/${{ secrets.SFTP_USERNAME }}/domains/dev-qu.tct-ksa.com/public_html'
         sftpArgs: '-o StrictHostKeyChecking=no'
+
+
+# الصياغة القياسية والمباشرة لمنع الرفع تماماً وبدون نجوم مزدوجة:
+        exclude: |
+          node_modules
+          node_modules/
+          .cache
+          .DS_Store
+          *.log
+          logs
+          logs/
+          tmp
+          tmp/
+          .vscode
+          .vscode/
+          .husky
+          .husky/
+          .yarn
+          .yarn/
+          .pnp.*
+          .env
+          .env.*
+          .nvmrc
+          coverage
+          coverage/
+
+
         
         # قائمة التجاهل الصارمة والمطابقة لملف gitignore الخاص بمشروعك:
         exclude: |

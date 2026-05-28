@@ -1,0 +1,26 @@
+name: Deploy Node.js App to WebHostMost via sFTP
+
+on:
+  push:
+    branches:
+      - main  # أو develop حسب فرعك الحالي
+
+jobs:
+  deploy:
+    name: 🚀 Deploy via sFTP
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+
+    - name: 📂 Sync files to WebHostMost
+      uses: nwtgck/actions-sftp-deploy@v1.2.1
+      with:
+        host: ${{ secrets.SFTP_SERVER }}
+        username: ${{ secrets.SFTP_USERNAME }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        port: 2323  # المنفذ الرسمي المعتمد في استضافة WebHostMost
+        local_dir: '.'  # المجلد الحالي في GitHub
+        remote_dir: '/home/${{ secrets.SFTP_USERNAME }}/domains/dev-qu.tct-ksa.com/public_html' # مسار موقعك الدقيق
+        # سطر السحر: السطر التالي يجبر GitHub على قراءة وتطبيق كل ما هو مكتوب داخل .gitignore ومنع رفعه
+        exclude_file: '.gitignore' 
